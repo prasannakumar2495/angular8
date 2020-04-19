@@ -1,0 +1,177 @@
+<nav>
+    <ol class="breadcrum">
+        <li class="breadcrum-item">
+            <a routerLink="/">Home</a>
+        </li>
+        <li class="breadcrum-item active">Dashboard</li>
+    </ol>
+</nav>
+<h5>Dashboard</h5>
+<h6>Today's date & time is : {{Date | date:"long"}}
+    <!-- this is regarding the date pipe and there are various ways the date formate can be displayed.-->
+</h6>
+<div class="row">
+    <div class="col-lg-3 pb-3" style="background-color: #e9e9e9;">
+        <div class="row">
+            <div class="col-11 text-white text-centre mx-2 rounded pt-2 pb-2 font-weight-bold" style="background-color: #a39e9e;
+            font-family: 'Arial Narrow Bold';">{{Designation | uppercase}}
+                <!-- in the above there is a pipe, which will be used to convert the string into upper case.-->
+            </div>
+            <div class="col-12 text-centre mt-2">
+                <img src="assets/img1.jpg" width="120px">
+            </div>
+            <div class="col-12 text-centre mt-2 pb-2 font-weight-bold"
+                style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                {{UserName}}</div>
+            <div class="col-12 mt-2 pb-2 text-centre">TEAM SUMMARY</div>
+            <div class="col-12 mb-3">
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-item-centre">
+                        No. Of Team Members
+                        <span class="badge badge-secondary badge-pill"
+                            style="font-size: 13px;">{{NoOfTeamMembers}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-centre">Total Cost Of All
+                        Projects
+                        <span class="badge badge-secondary badge-pill" style="font-size: 13px;">$
+                            {{TotalCostOfAllProjects}} K</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-centre">Pending Tasks
+                        <span class="badge badge-secondary badge-pill" style="font-size: 13px;"> {{PendingTasks}}
+                        </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-centre">Upcoming Projects
+                        <span class="badge badge-secondary badge-pill" style="font-size: 13px;"> {{UpComingProjects}}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-12 text-centre pt-2 pb-2"
+                style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+                CLIENTS</div>
+            <div class="col-12">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" *ngFor="let client of Clients">{{client | slice: 0 : 10}}
+                        <!-- the SLICE pipe will display depending upon the array numbers that has been mentioned-->
+                    </li>
+                </ul>
+                {{TeamMembers | json}}
+                <!-- to display the JSON format we should give the name of the elements that are being mentioned in the 
+                component file but not the alias names.-->
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="row">
+            <div class="col-12 pt-0 pb-2" style="background-color: #e9e6e6;">
+                <div class="row mt-2">
+                    <div class="col-6 text-left">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown">Project 1</button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#" *ngFor="let project of Projects"
+                                    onclick="return false" (click)="onProjectChange($event)">
+                                    {{project}}</a>
+                                <!-- onclick attribute will stop the page from reloading when the user clicks on the
+                                    drop down options.-->
+                                <!-- (click) this is EVENT Binding. The method that has been assinged should be
+                                    present in the component module.-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 text-right">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown">2020</button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#" *ngFor="let year of Years">
+                                <span [ngSwitch]= "year">
+                                    <span *ngSwitchCase= "2020" style="color: green;" >{{year}}</span>
+                                    <span *ngSwitchDefault style="color: yellowgreen;" >{{year}}</span>
+                                </span>
+                            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-11 mx-auto mt-1 text-white pb-2 pt-2 rounded font-weight-bold text-centre"
+                        style="background-color: #758b15;">Project Briefing</div>
+                    <div class="col-12">
+                        <table class="table table-borderless">
+                            <tr>
+                                <td>Project Cost</td>
+                                <td>{{ProjectCost | currency: "EUR"}}</td>
+                            </tr>
+                            <tr>
+                                <td>Current Expenditure</td>
+                                <td>{{CurrentExpenditure | currency}}</td>
+                            </tr>
+                            <tr>
+                                <td>Available Funds</td>
+                                <td>{{AvailableFunds | currency: "INR"}}</td>
+                                <!-- the above piping is used to display the currency symbol infront.-->
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3" style="background-color: rgb(170, 159, 113);">
+        <div class="row">
+            <div class="col-11 text-centre rounded pb-2 pt-0 mx-2 mt-1 font-weight-bold text-white"
+                style="background-color: rgb(156, 152, 152);">Team Members</div>
+        </div>
+        <div class="col-lg-12 pt-2">
+            <div class="accordion" id="accordion1">
+                <div class="card" *ngFor="let teammembers of TeamMembers; let i = index">
+                    <div *ngIf="i != 2">
+                        <div class="card-header bg-secondary" id="card1">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link text-white" type="button" data-toggle="collapse"
+                                    [attr.data-target]="'#cardbody' + i">{{teammembers.Region}}</button>
+                                <!-- [attr.data-target] this is called PROPERTY Binding. 
+                                    As data-target is attribute we used attr.-->
+                            </h5>
+                            <div [id]="'cardbody'+ i" class="collapse" data-parent="#accordion1"
+                                [ngClass]="(i == 0)?'show': ''">
+                                <!--ngClass is to apply condition to the CSS.-->
+                                <div class="card-body">
+                                    <div *ngIf="i == 0; then firsttemplate; else secondtemplate"></div>
+                                    <ng-template #firsttemplate>
+                                        <div class="card" *ngFor="let member of teammembers.Members">
+                                            <div class="card-header bg-primary text-white">
+                                                {{member.ID}} {{member.Name}}
+                                            </div>
+                                            <div class="card-body">{{member.Status}}</div>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template #secondtemplate>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>NAME</th>
+                                                    <th>STATUS</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let member of teammembers.Members">
+                                                    <td>{{member.ID}}</td>
+                                                    <td [style.color]="(member.Status=='Busy')? 'red':'black'">
+                                                        {{member.Name}}</td>
+                                                    <!--[style.color] is also to apply contion to the CSS-->
+                                                    <td>{{member.Status}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
